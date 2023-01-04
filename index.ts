@@ -91,7 +91,7 @@ async function init() {
       argv.jsx ??
       argv.router ??
       argv.pinia ??
-      argv.windi ??
+      argv.complex ??
       // argv.tests ??
       // argv.vitest ??
       // argv.cypress ??
@@ -112,12 +112,15 @@ async function init() {
     needsJsx?: boolean
     needsRouter?: boolean
     needsPinia?: boolean
-    needsWindi?: boolean
+    format?: string
+    needsComplex?: boolean
     // needsVitest?: boolean
     // needsE2eTesting?: false | 'cypress' | 'playwright'
     needsEslint?: boolean
     needsPrettier?: boolean
   } = {}
+
+  let complexTemplate = false
 
   try {
     // Prompts:
@@ -137,7 +140,7 @@ async function init() {
         {
           name: 'projectName',
           type: targetDir ? null : 'text',
-          message: 'Project name:',
+          message: '项目名称:',
           initial: defaultProjectName,
           onState: (state) => (targetDir = String(state.value).trim() || defaultProjectName)
         },
@@ -168,8 +171,21 @@ async function init() {
           validate: (dir) => isValidPackageName(dir) || 'Invalid package.json name'
         },
         {
-          name: 'needsTypeScript',
+          name: 'needsComplex',
           type: () => (isFeatureFlagsUsed ? null : 'toggle'),
+          message: '典型模板?',
+          initial: false,
+          active: 'Yes',
+          inactive: 'No'
+        },
+        {
+          name: 'needsTypeScript',
+          type: (prev, values) => {
+            if (isFeatureFlagsUsed || values.needsComplex) {
+              return null
+            }
+            return 'toggle'
+          },
           message: '添加TypeScript?',
           initial: false,
           active: 'Yes',
@@ -177,7 +193,7 @@ async function init() {
         },
         {
           name: 'needsJsx',
-          type: () => (isFeatureFlagsUsed ? null : 'toggle'),
+          type: (prev, values) => (isFeatureFlagsUsed || values.needsComplex ? null : 'toggle'),
           message: '添加JSX支持?',
           initial: false,
           active: 'Yes',
@@ -185,7 +201,7 @@ async function init() {
         },
         {
           name: 'needsRouter',
-          type: () => (isFeatureFlagsUsed ? null : 'toggle'),
+          type: (prev, values) => (isFeatureFlagsUsed || values.needsComplex ? null : 'toggle'),
           message: '添加Vue Router开发单页应用?',
           initial: false,
           active: 'Yes',
@@ -193,51 +209,15 @@ async function init() {
         },
         {
           name: 'needsPinia',
-          type: () => (isFeatureFlagsUsed ? null : 'toggle'),
+          type: (prev, values) => (isFeatureFlagsUsed || values.needsComplex ? null : 'toggle'),
           message: '添加Pinia作为全局状态管理?',
           initial: false,
           active: 'Yes',
           inactive: 'No'
         },
         {
-          name: 'needsWindicss',
-          type: () => (isFeatureFlagsUsed ? null : 'toggle'),
-          message: '添加Windicss支持？',
-          initial: false,
-          active: 'Yes',
-          inactive: 'No'
-        },
-        // {
-        //   name: 'needsVitest',
-        //   type: () => (isFeatureFlagsUsed ? null : 'toggle'),
-        //   message: 'Add Vitest for Unit Testing?',
-        //   initial: false,
-        //   active: 'Yes',
-        //   inactive: 'No'
-        // },
-        // {
-        //   name: 'needsE2eTesting',
-        //   type: () => (isFeatureFlagsUsed ? null : 'select'),
-        //   message: 'Add an End-to-End Testing Solution?',
-        //   initial: 0,
-        //   choices: (prev, answers) => [
-        //     { title: 'No', value: false },
-        //     {
-        //       title: 'Cypress',
-        //       description: answers.needsVitest
-        //         ? undefined
-        //         : 'also supports unit testing with Cypress Component Testing',
-        //       value: 'cypress'
-        //     },
-        //     {
-        //       title: 'Playwright',
-        //       value: 'playwright'
-        //     }
-        //   ]
-        // },
-        {
           name: 'needsEslint',
-          type: () => (isFeatureFlagsUsed ? null : 'toggle'),
+          type: (prev, values) => (isFeatureFlagsUsed || values.needsComplex ? null : 'toggle'),
           message: '添加ESLint提高代码质量?',
           initial: false,
           active: 'Yes',
@@ -246,7 +226,7 @@ async function init() {
         {
           name: 'needsPrettier',
           type: (prev, values) => {
-            if (isFeatureFlagsUsed || !values.needsEslint) {
+            if (isFeatureFlagsUsed || !values.needsEslint || values.needsComplex) {
               return null
             }
             return 'toggle'
@@ -255,6 +235,35 @@ async function init() {
           initial: false,
           active: 'Yes',
           inactive: 'No'
+        },
+        {
+          name: 'format',
+          type: (prev, values) =>
+            isFeatureFlagsUsed ||
+            !values.needsEslint ||
+            !values.needsPrettier ||
+            values.needsComplex
+              ? null
+              : 'select',
+          message: '风格化?',
+          initial: false,
+          choices: (prev, answers) => [
+            {
+              title: 'fline',
+              description: 'fline',
+              value: 'fline'
+            },
+            {
+              title: 'standard',
+              description: 'standard',
+              value: 'standard'
+            },
+            {
+              title: 'airbnb',
+              description: 'airbnb',
+              value: 'airbnb'
+            }
+          ]
         }
       ],
       {
@@ -278,8 +287,9 @@ async function init() {
     needsTypeScript = argv.typescript,
     needsRouter = argv.router,
     needsPinia = argv.pinia,
+    format,
+    needsComplex = argv.complex,
     // needsVitest = argv.vitest || argv.tests,
-    needsWindi = argv.windi,
     needsEslint = argv.eslint || argv['eslint-with-prettier'],
     needsPrettier = argv['eslint-with-prettier']
   } = result
@@ -287,7 +297,7 @@ async function init() {
   // const { needsE2eTesting } = result
   // const needsCypress = argv.cypress || argv.tests || needsE2eTesting === 'cypress'
   // const needsCypressCT = needsCypress && !needsVitest
-  const needsPlaywright = argv.playwright /*|| needsE2eTesting === 'playwright'*/
+  // const needsPlaywright = argv.playwright /*|| needsE2eTesting === 'playwright'*/
 
   const root = path.join(cwd, targetDir)
 
@@ -297,7 +307,7 @@ async function init() {
     fs.mkdirSync(root)
   }
 
-  console.log(`\nScaffolding project in ${root}...`)
+  console.log(`\n搭建项目于${root}...`)
 
   const pkg = { name: packageName, version: '0.0.0' }
   fs.writeFileSync(path.resolve(root, 'package.json'), JSON.stringify(pkg, null, 2))
@@ -312,116 +322,129 @@ async function init() {
     renderTemplate(templateDir, root)
   }
 
-  // Render base template
-  render('base')
+  if (needsComplex) {
+    // base template
+    render('complex')
+    // configs
+    render('tsconfig/complex')
+    // code template
+    render('code/complex')
+    // entry file
+    render('entry/complex')
+    // eslint & prettier
+    renderEslint(root, {
+      needsTypeScript: true,
+      format: 'fline',
+      needsPrettier: true
+    })
+  } else {
+    // Render base template
+    render('base')
 
-  // Add configs.
-  if (needsJsx) {
-    render('config/jsx')
-  }
-  if (needsRouter) {
-    render('config/router')
-  }
-  if (needsPinia) {
-    render('config/pinia')
-  }
-  if (needsWindi) {
-    render('config/windi')
-  }
-  // if (needsVitest) {
-  //   render('config/vitest')
-  // }
-  // if (needsCypress) {
-  //   render('config/cypress')
-  // }
-  // if (needsCypressCT) {
-  //   render('config/cypress-ct')
-  // }
-  if (needsPlaywright) {
-    render('config/playwright')
-  }
-  if (needsTypeScript) {
-    render('config/typescript')
-
-    // Render tsconfigs
-    render('tsconfig/base')
-    if (needsPlaywright) {
-      render('tsconfig/playwright')
+    // Add configs.
+    if (needsJsx) {
+      render('config/jsx')
     }
-  }
+    if (needsRouter) {
+      render('config/router')
+    }
+    if (needsPinia) {
+      render('config/pinia')
+    }
+    if (needsTypeScript) {
+      render('config/typescript')
+      // Render tsconfigs
+      render('tsconfig/base')
+    }
 
-  // Render ESLint config
-  if (needsEslint) {
-    renderEslint(root, { needsTypeScript, /* needsCypress, needsCypressCT ,*/ needsPrettier })
-  }
+    // eslint配置文件渲染
+    if (needsEslint) {
+      renderEslint(root, {
+        needsTypeScript,
+        format,
+        /* needsCypress, needsCypressCT ,*/ needsPrettier
+      })
+    }
 
-  // Render code template.
-  // prettier-ignore
-  const codeTemplate =
+    // Render code template.
+    // prettier-ignore
+    const codeTemplate =
     (needsTypeScript ? 'typescript-' : '') +
     (needsRouter ? 'router' : 'default')
-  render(`code/${codeTemplate}`)
+    render(`code/${codeTemplate}`)
 
-  // 渲染入口文件
-  if (needsPinia && needsRouter) {
-    render('entry/router-and-pinia')
-  } else if (needsPinia) {
-    render('entry/pinia')
-  } else if (needsRouter) {
-    render('entry/router')
-  } else {
-    render('entry/default')
-  }
+    // 渲染入口文件
+    if (needsPinia && needsRouter) {
+      render('entry/router-and-pinia')
+    } else if (needsPinia) {
+      render('entry/pinia')
+    } else if (needsRouter) {
+      render('entry/router')
+    } else {
+      render('entry/default')
+    }
 
-  // Cleanup.
+    // Cleanup.
 
-  // We try to share as many files between TypeScript and JavaScript as possible.
-  // If that's not possible, we put `.ts` version alongside the `.js` one in the templates.
-  // So after all the templates are rendered, we need to clean up the redundant files.
-  // (Currently it's only `cypress/plugin/index.ts`, but we might add more in the future.)
-  // (Or, we might completely get rid of the plugins folder as Cypress 10 supports `cypress.config.ts`)
+    // We try to share as many files between TypeScript and JavaScript as possible.
+    // If that's not possible, we put `.ts` version alongside the `.js` one in the templates.
+    // So after all the templates are rendered, we need to clean up the redundant files.
+    // (Currently it's only `cypress/plugin/index.ts`, but we might add more in the future.)
+    // (Or, we might completely get rid of the plugins folder as Cypress 10 supports `cypress.config.ts`)
 
-  if (needsTypeScript) {
-    // Convert the JavaScript template to the TypeScript
-    // Check all the remaining `.js` files:
-    //   - If the corresponding TypeScript version already exists, remove the `.js` version.
-    //   - Otherwise, rename the `.js` file to `.ts`
-    // Remove `jsconfig.json`, because we already have tsconfig.json
-    // `jsconfig.json` is not reused, because we use solution-style `tsconfig`s, which are much more complicated.
-    preOrderDirectoryTraverse(
-      root,
-      () => {},
-      (filepath) => {
-        if (filepath.endsWith('.js')) {
-          const tsFilePath = filepath.replace(/\.js$/, '.ts')
-          if (fs.existsSync(tsFilePath)) {
-            fs.unlinkSync(filepath)
-          } else {
-            fs.renameSync(filepath, tsFilePath)
+    if (needsTypeScript) {
+      // Convert the JavaScript template to the TypeScript
+      // Check all the remaining `.js` files:
+      //   - If the corresponding TypeScript version already exists, remove the `.js` version.
+      //   - Otherwise, rename the `.js` file to `.ts`
+      // Remove `jsconfig.json`, because we already have tsconfig.json
+      // `jsconfig.json` is not reused, because we use solution-style `tsconfig`s, which are much more complicated.
+      // 部分js配置文件不需要重命名为ts文件
+      const whiteList = [
+        '.prettierrc.js',
+        'eslintrc.js',
+        'windicss.config.js',
+        '.versionrc.js',
+        'vite.config.js'
+      ]
+      preOrderDirectoryTraverse(
+        root,
+        () => {},
+        (filepath) => {
+          // 白名单存在的文件不作处理
+          if (whiteList.findIndex((item) => filepath.includes(item)) < 0) {
+            console.log(filepath)
+            if (filepath.endsWith('.js')) {
+              const tsFilePath = filepath.replace(/\.js$/, '.ts')
+              if (fs.existsSync(tsFilePath)) {
+                fs.unlinkSync(filepath)
+              } else {
+                fs.renameSync(filepath, tsFilePath)
+              }
+            } else if (path.basename(filepath) === 'jsconfig.json') {
+              fs.unlinkSync(filepath)
+            }
           }
-        } else if (path.basename(filepath) === 'jsconfig.json') {
-          fs.unlinkSync(filepath)
         }
-      }
-    )
+      )
 
-    // Rename entry in `index.html`
-    const indexHtmlPath = path.resolve(root, 'index.html')
-    const indexHtmlContent = fs.readFileSync(indexHtmlPath, 'utf8')
-    fs.writeFileSync(indexHtmlPath, indexHtmlContent.replace('src/main.js', 'src/main.ts'))
-  } else {
-    // Remove all the remaining `.ts` files
-    preOrderDirectoryTraverse(
-      root,
-      () => {},
-      (filepath) => {
-        if (filepath.endsWith('.ts')) {
-          fs.unlinkSync(filepath)
+      // Rename entry in `index.html`
+      const indexHtmlPath = path.resolve(root, 'index.html')
+      const indexHtmlContent = fs.readFileSync(indexHtmlPath, 'utf8')
+      fs.writeFileSync(indexHtmlPath, indexHtmlContent.replace('src/main.js', 'src/main.ts'))
+    } else {
+      // Remove all the remaining `.ts` files
+      preOrderDirectoryTraverse(
+        root,
+        () => {},
+        (filepath) => {
+          if (filepath.endsWith('.ts')) {
+            fs.unlinkSync(filepath)
+          }
         }
-      }
-    )
+      )
+    }
   }
-
   // Instructions:
   // Supported package managers: pnpm > yarn > npm
   const userAgent = process.env.npm_config_user_agent ?? ''
@@ -434,7 +457,7 @@ async function init() {
       projectName: result.projectName ?? result.packageName ?? defaultProjectName,
       packageManager,
       needsTypeScript,
-      needsPlaywright,
+      // needsPlaywright,
       /*
       needsVitest,
       needsCypress,

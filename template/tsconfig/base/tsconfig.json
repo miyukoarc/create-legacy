@@ -1,16 +1,22 @@
 {
-  "extends": "@vue/tsconfig/tsconfig.web.json",
   "include": ["env.d.ts", "src/**/*", "src/**/*.vue"],
   "compilerOptions": {
     "baseUrl": ".",
+    "lib": ["DOM", "esnext"],
+    "module": "esnext",
+    "moduleResolution": "node",
+    "types": ["vite/client"],
+    "allowJs": true,
     "paths": {
       "@/*": ["./src/*"]
     }
   },
-
+  "vueCompilerOptions": {
+    "target": 2.7
+  },
   "references": [
     {
-      "path": "./tsconfig.config.json"
+      "path": "./tsconfig.vite-config.json"
     }
   ]
 }

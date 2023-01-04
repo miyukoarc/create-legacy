@@ -1,0 +1,14 @@
+export default {
+  '@rushstack/eslint-patch': '^1.1.4',
+  '@vue/eslint-config-airbnb': '^7.0.0',
+  '@vue/eslint-config-airbnb-with-typescript': '^7.0.0',
+  '@vue/eslint-config-prettier': '^7.0.0',
+  '@vue/eslint-config-standard': '^8.0.1',
+  '@vue/eslint-config-standard-with-typescript': '^8.0.0',
+  '@vue/eslint-config-typescript': '^11.0.0',
+  eslint: '^8.22.0',
+  'eslint-plugin-vue': '^9.3.0',
+  prettier: '^2.7.1',
+  standard: '^17.0.0',
+  typescript: '~4.7.4'
+}

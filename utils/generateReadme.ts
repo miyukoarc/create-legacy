@@ -22,8 +22,8 @@ export default function generateReadme({
   /*
   needsCypress,
   needsCypressCT,
-  needsVitest,*/
-  needsPlaywright,
+  needsVitest,
+  needsPlaywright,*/
   needsEslint
 }) {
   const commandFor = (scriptName: string, args?: string) =>
@@ -31,7 +31,7 @@ export default function generateReadme({
 
   let readme = `# ${projectName}
 
-This template should help get you started developing with Vue 3 in Vite.
+This template should help get you started developing with Vue 2.7 in Vite.
 
 ## Recommended IDE Setup
 
@@ -102,28 +102,28 @@ ${commandFor('build')}
   // `
   //   }
 
-  if (needsPlaywright) {
-    npmScriptsDescriptions += `
-### Run End-to-End Tests with [Playwright](https://playwright.dev)
+  //   if (needsPlaywright) {
+  //     npmScriptsDescriptions += `
+  // ### Run End-to-End Tests with [Playwright](https://playwright.dev)
 
-\`\`\`sh
-# Install browsers for the first run
-npx playwright install
+  // \`\`\`sh
+  // # Install browsers for the first run
+  // npx playwright install
 
-# When testing on CI, must build the project first
-${commandFor('build')}
+  // # When testing on CI, must build the project first
+  // ${commandFor('build')}
 
-# Runs the end-to-end tests
-${commandFor('test:e2e')}
-# Runs the tests only on Chromium
-${commandFor('test:e2e', '--project=chromium')}
-# Runs the tests of a specific file
-${commandFor('test:e2e', 'tests/example.spec.ts')}
-# Runs the tests in debug mode
-${commandFor('test:e2e', '--debug')}
-\`\`\`
-`
-  }
+  // # Runs the end-to-end tests
+  // ${commandFor('test:e2e')}
+  // # Runs the tests only on Chromium
+  // ${commandFor('test:e2e', '--project=chromium')}
+  // # Runs the tests of a specific file
+  // ${commandFor('test:e2e', 'tests/example.spec.ts')}
+  // # Runs the tests in debug mode
+  // ${commandFor('test:e2e', '--debug')}
+  // \`\`\`
+  // `
+  //   }
 
   if (needsEslint) {
     npmScriptsDescriptions += `

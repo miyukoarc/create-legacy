@@ -3,7 +3,7 @@ import * as path from 'node:path'
 
 import type { Linter } from 'eslint'
 
-import createESLintConfig from '@vue/create-eslint-config'
+import createESLintConfig from '../template/format/index.js'
 
 import { devDependencies as eslintDeps } from '../template/eslint/package.json' assert { type: 'json' }
 import sortDependencies from './sortDependencies'
@@ -16,7 +16,7 @@ import deepMerge from './deepMerge'
  */
 export default function renderEslint(
   rootDir,
-  { needsTypeScript, /*needsCypress, needsCypressCT,*/ needsPrettier }
+  { needsTypeScript, format, /*needsCypress, needsCypressCT,*/ needsPrettier }
 ) {
   const additionalConfig: Linter.Config = {}
   const additionalDependencies = {}
@@ -37,11 +37,13 @@ export default function renderEslint(
   //   additionalDependencies['eslint-plugin-cypress'] = eslintDeps['eslint-plugin-cypress']
   // }
 
+  console.log('format', format)
+
   // 生成eslint配置
   const { pkg, files } = createESLintConfig({
     vueVersion: '2.7',
     // we currently don't support other style guides
-    styleGuide: 'default',
+    styleGuide: format,
     hasTypeScript: needsTypeScript,
     needsPrettier,
 
