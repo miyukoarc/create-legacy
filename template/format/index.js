@@ -66,6 +66,7 @@ export default function createConfig({
   // This is the pkg object to extend
   const pkg = { devDependencies: {} }
   const addDependency = (name) => {
+    // 从基准版本映射中寻找对应版本
     pkg.devDependencies[name] = versionMap[name]
   }
 
@@ -189,8 +190,6 @@ export default function createConfig({
       files['.prettierrc.json'] = `${prettierrcs[styleGuide]}` || '{}'
     }
   }
-
-  console.log(pkg, files)
 
   return {
     pkg,

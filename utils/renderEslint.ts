@@ -37,8 +37,6 @@ export default function renderEslint(
   //   additionalDependencies['eslint-plugin-cypress'] = eslintDeps['eslint-plugin-cypress']
   // }
 
-  console.log('format', format)
-
   // 生成eslint配置
   const { pkg, files } = createESLintConfig({
     vueVersion: '2.7',
@@ -64,6 +62,7 @@ export default function renderEslint(
       }
     })
   )
+  console.log(updatedPkg, pkg)
   fs.writeFileSync(packageJsonPath, JSON.stringify(updatedPkg, null, 2) + '\n', 'utf-8')
 
   // write to .eslintrc.cjs, .prettierrc.json, etc.

@@ -413,7 +413,6 @@ async function init() {
         (filepath) => {
           // 白名单存在的文件不作处理
           if (whiteList.findIndex((item) => filepath.includes(item)) < 0) {
-            console.log(filepath)
             if (filepath.endsWith('.js')) {
               const tsFilePath = filepath.replace(/\.js$/, '.ts')
               if (fs.existsSync(tsFilePath)) {
