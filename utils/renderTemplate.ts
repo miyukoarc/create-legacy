@@ -54,6 +54,11 @@ function renderTemplate(src, dest) {
     return
   }
 
+  // if (filename === 'main.js') {
+  //   const fileInstance = fs.readFileSync(src, 'utf8')
+  //   console.log(filename, fileInstance)
+  // }
+
   fs.copyFileSync(src, dest)
 }
 
