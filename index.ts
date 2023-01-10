@@ -238,13 +238,14 @@ async function init() {
         },
         {
           name: 'format',
-          type: (prev, values) =>
-            isFeatureFlagsUsed ||
-            !values.needsEslint ||
-            !values.needsPrettier ||
-            values.needsComplex
-              ? null
-              : 'select',
+          type: (prev, values) => {
+            if (values.needsComplex) return 'select'
+            if (isFeatureFlagsUsed || !values.needsEslint || !values.needsPrettier) {
+              return null
+            } else {
+              return 'select'
+            }
+          },
           message: '风格化?',
           initial: false,
           choices: (prev, answers) => [
@@ -298,6 +299,8 @@ async function init() {
   // const needsCypress = argv.cypress || argv.tests || needsE2eTesting === 'cypress'
   // const needsCypressCT = needsCypress && !needsVitest
   // const needsPlaywright = argv.playwright /*|| needsE2eTesting === 'playwright'*/
+
+  console.log(needsComplex, 'needsComplex')
 
   const root = path.join(cwd, targetDir)
 

@@ -22,17 +22,8 @@
     "test": "zx ./scripts/test.mjs",
     "prepublishOnly": "zx ./scripts/prepublish.mjs"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/vuejs/create-vue.git"
-  },
   "keywords": [],
-  "author": "Haoqun Jiang <haoqunjiang+npm@gmail.com>",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/vuejs/create-vue/issues"
-  },
-  "homepage": "https://github.com/vuejs/create-vue#readme",
   "devDependencies": {
     "@types/eslint": "^8.4.10",
     "@types/node": "^18.11.12",
