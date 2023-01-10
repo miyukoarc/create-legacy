@@ -5,12 +5,7 @@
       <ElRow>
         <ElCol :span="24">
           <el-form-item label="用户名">
-            <el-input
-              v-model="form.userId"
-              size="large"
-              class="w-full"
-              placeholder=""
-            ></el-input>
+            <el-input v-model="form.userId" size="large" class="w-full" placeholder=""></el-input>
           </el-form-item>
         </ElCol>
         <ElCol :span="24">
@@ -47,47 +42,47 @@
 </template>
 
 <script lang="ts" setup>
-import { loginPwd } from '@/api/modules/auth';
-import { AuthBody } from '@/api/types';
-import { ENTER } from '@/constant/keyboard';
-import { TOKEN } from '@/constant/login';
-import { useMenuStore } from '@/stores/modules/menu';
-import { useUserStore } from '@/stores/modules/user';
-import { getToken, setToken } from '@/utils/cookies';
-import { uniqueId } from '@/utils/data';
-import { reactive, ref, unref } from 'vue';
-import router from '@/router';
+import { loginPwd } from '@/api/modules/auth'
+import { AuthBody } from '@/api/types'
+import { ENTER } from '@/constant/keyboard'
+import { TOKEN } from '@/constant/login'
+import { useMenuStore } from '@/stores/modules/menu'
+import { useUserStore } from '@/stores/modules/user'
+import { getToken, setToken } from '@/utils/cookies'
+import { uniqueId } from '@/utils/data'
+import { reactive, ref, unref } from 'vue'
+import router from '@/router'
 
-const userStore = useUserStore();
-const menuStore = useMenuStore();
+const userStore = useUserStore()
+const menuStore = useMenuStore()
 
-const loading = ref<boolean>(false);
+const loading = ref<boolean>(false)
 const form = reactive<AuthBody>({
   userId: 'admin',
-  password: 'admin',
-});
+  password: 'admin'
+})
 
 const buttonLogin = () => {
-  const payload = unref(form);
-  loading.value = true;
+  const payload = unref(form)
+  loading.value = true
   loginPwd(payload).then(async () => {
-    setToken(TOKEN, uniqueId());
+    setToken(TOKEN, uniqueId())
 
-    await userStore.afterLoginAction();
+    await userStore.afterLoginAction()
 
     const timer = window.setTimeout(() => {
-      loading.value = false;
+      loading.value = false
       if (getToken(TOKEN)) {
-        router.push({ path: '/logged/welcome' });
+        router.push({ path: '/logged/welcome' })
       }
-      window.clearTimeout(timer);
-    }, 800);
-  });
-};
+      window.clearTimeout(timer)
+    }, 800)
+  })
+}
 
 const enterPress = (e: KeyboardEvent) => {
-  e.code === ENTER && buttonLogin();
-};
+  e.code === ENTER && buttonLogin()
+}
 </script>
 
 <style lang="scss" scoped>

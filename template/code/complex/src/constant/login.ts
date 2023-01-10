@@ -1,1 +1,1 @@
-export const TOKEN = '__TOKEN__';
+export const TOKEN = '__TOKEN__'

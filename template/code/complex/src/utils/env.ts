@@ -3,7 +3,7 @@
  * @returns:
  */
 export function getEnv(): string {
-  return import.meta.env.MODE;
+  return import.meta.env.MODE
 }
 
 /**
@@ -11,7 +11,7 @@ export function getEnv(): string {
  * @returns:
  */
 export function isDevMode(): boolean {
-  return import.meta.env.DEV;
+  return import.meta.env.DEV
 }
 
 /**
@@ -19,5 +19,5 @@ export function isDevMode(): boolean {
  * @returns:
  */
 export function isProdMode(): boolean {
-  return import.meta.env.PROD;
+  return import.meta.env.PROD
 }

@@ -1,6 +1,6 @@
-import { appModules, AppState } from '@/config/app';
-import { defineStore } from 'pinia';
-import { store } from '..';
+import { appModules, AppState } from '@/config/app'
+import { defineStore } from 'pinia'
+import { store } from '..'
 
 export const useAppStore = defineStore({
   id: 'app',
@@ -10,99 +10,99 @@ export const useAppStore = defineStore({
   //   },
   getters: {
     getBreadcrumb(): boolean {
-      return this.breadcrumb;
+      return this.breadcrumb
     },
     getBreadcrumbIcon(): boolean {
-      return this.breadcrumbIcon;
+      return this.breadcrumbIcon
     },
     getCollapse(): boolean {
-      return this.collapse;
+      return this.collapse
     },
     getUniqueOpened(): boolean {
-      return this.uniqueOpened;
+      return this.uniqueOpened
     },
     getHamburger(): boolean {
-      return this.hamburger;
+      return this.hamburger
     },
     getScreenfull(): boolean {
-      return this.screenfull;
+      return this.screenfull
     },
     getSize(): boolean {
-      return this.size;
+      return this.size
     },
     getTagsView(): boolean {
-      return this.tagsView;
+      return this.tagsView
     },
     getTagsViewIcon(): boolean {
-      return this.tagsViewIcon;
+      return this.tagsViewIcon
     },
     getLogo(): boolean {
-      return this.logo;
+      return this.logo
     },
     getFixedHeader(): boolean {
-      return this.fixedHeader;
+      return this.fixedHeader
     },
     getGreyMode(): boolean {
-      return this.greyMode;
+      return this.greyMode
     },
     getPageLoading(): boolean {
-      return this.pageLoading;
+      return this.pageLoading
     },
     // getLayout(): LayoutType {
     //   return this.layout;
     // },
     getTitle(): string {
-      return this.title;
+      return this.title
     },
     getUserInfo(): string {
-      return this.userInfo;
+      return this.userInfo
     },
     getMobile(): boolean {
-      return this.mobile;
+      return this.mobile
     },
     getFooter(): boolean {
-      return this.footer;
-    },
+      return this.footer
+    }
   },
   actions: {
     setBreadcrumb(breadcrumb: boolean) {
-      this.breadcrumb = breadcrumb;
+      this.breadcrumb = breadcrumb
     },
     setBreadcrumbIcon(breadcrumbIcon: boolean) {
-      this.breadcrumbIcon = breadcrumbIcon;
+      this.breadcrumbIcon = breadcrumbIcon
     },
     setCollapse(collapse: boolean) {
-      this.collapse = collapse;
+      this.collapse = collapse
     },
     setUniqueOpened(uniqueOpened: boolean) {
-      this.uniqueOpened = uniqueOpened;
+      this.uniqueOpened = uniqueOpened
     },
     setHamburger(hamburger: boolean) {
-      this.hamburger = hamburger;
+      this.hamburger = hamburger
     },
     setScreenfull(screenfull: boolean) {
-      this.screenfull = screenfull;
+      this.screenfull = screenfull
     },
     setSize(size: boolean) {
-      this.size = size;
+      this.size = size
     },
     setTagsView(tagsView: boolean) {
-      this.tagsView = tagsView;
+      this.tagsView = tagsView
     },
     setTagsViewIcon(tagsViewIcon: boolean) {
-      this.tagsViewIcon = tagsViewIcon;
+      this.tagsViewIcon = tagsViewIcon
     },
     setLogo(logo: boolean) {
-      this.logo = logo;
+      this.logo = logo
     },
     setFixedHeader(fixedHeader: boolean) {
-      this.fixedHeader = fixedHeader;
+      this.fixedHeader = fixedHeader
     },
     setGreyMode(greyMode: boolean) {
-      this.greyMode = greyMode;
+      this.greyMode = greyMode
     },
     setPageLoading(pageLoading: boolean) {
-      this.pageLoading = pageLoading;
+      this.pageLoading = pageLoading
     },
     // setLayout(layout: LayoutType) {
     //   //   if (this.mobile && layout !== 'classic') {
@@ -113,7 +113,7 @@ export const useAppStore = defineStore({
     //   //   wsCache.set('layout', this.layout);
     // },
     setTitle(title: string) {
-      this.title = title;
+      this.title = title
     },
     // setIsDark(isDark: boolean) {
     //   this.isDark = isDark;
@@ -131,7 +131,7 @@ export const useAppStore = defineStore({
     //   wsCache.set('currentSize', this.currentSize);
     // },
     setMobile(mobile: boolean) {
-      this.mobile = mobile;
+      this.mobile = mobile
     },
     // setTheme(theme: ThemeTypes) {
     //   this.theme = Object.assign(this.theme, theme);
@@ -146,15 +146,15 @@ export const useAppStore = defineStore({
     //   }
     // },
     setFooter(footer: boolean) {
-      this.footer = footer;
-    },
-  },
-});
+      this.footer = footer
+    }
+  }
+})
 
 /**
  * @description use store outside setup
  * @returns
  */
 export const useAppStoreOutside = () => {
-  return useAppStore(store);
-};
+  return useAppStore(store)
+}

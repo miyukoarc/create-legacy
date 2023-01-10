@@ -1,22 +1,25 @@
-import { AxiosRequestConfig, AxiosResponse } from 'axios';
-import { RequestOptions, Result } from './axios';
+import { AxiosRequestConfig, AxiosResponse } from 'axios'
+import { RequestOptions, Result } from './axios'
 
 export interface SnowAxiosOptions extends AxiosRequestConfig {
-  urlPrefix?: string;
-  transform?: SnowAxiosTransform;
-  requestOptions?: RequestOptions;
+  urlPrefix?: string
+  transform?: SnowAxiosTransform
+  requestOptions?: RequestOptions
 }
 
 export abstract class SnowAxiosTransform {
-  transformRequestHook?: (res: AxiosResponse<Result>, options: RequestOptions) => any;
+  transformRequestHook?: (res: AxiosResponse<Result>, options: RequestOptions) => any
 
-  beforeRequestHook?: (config: AxiosRequestConfig, options: RequestOptions) => AxiosRequestConfig;
+  beforeRequestHook?: (config: AxiosRequestConfig, options: RequestOptions) => AxiosRequestConfig
 
-  requestInterceptors?: (config: AxiosRequestConfig, options: SnowAxiosOptions) => AxiosRequestConfig;
+  requestInterceptors?: (
+    config: AxiosRequestConfig,
+    options: SnowAxiosOptions
+  ) => AxiosRequestConfig
 
-  responseInterceptors?: (res: AxiosResponse<any>) => AxiosResponse<any>;
+  responseInterceptors?: (res: AxiosResponse<any>) => AxiosResponse<any>
 
-  requestInterceptorsCatch?: (error: Error) => void;
+  requestInterceptorsCatch?: (error: Error) => void
 
-  responseInterceptorsCatch?: (error: any) => void;
+  responseInterceptorsCatch?: (error: any) => void
 }

@@ -1,16 +1,13 @@
-import { defHttp } from '@/utils/http';
-import { AuthBody } from '../types';
+import { defHttp } from '@/utils/http'
+import { AuthBody } from '../types'
 
 /**
  * @description 获取当前登录人星系
  * @returns
  */
 export const queryLoginUserInfo = () => {
-  return defHttp.get(
-    { url: '/uc/user/my/info' },
-    { errorReport: true, successReport: false }
-  );
-};
+  return defHttp.get({ url: '/uc/user/my/info' }, { errorReport: true, successReport: false })
+}
 
 /**
  * @description 用户名密码登录
@@ -22,7 +19,7 @@ export const loginPwd = (payload: AuthBody) => {
     { url: '/uc/login/pwd', data: payload },
     {
       errorReport: true,
-      successReport: false,
+      successReport: false
     }
-  );
-};
+  )
+}

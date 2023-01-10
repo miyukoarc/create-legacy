@@ -1,6 +1,6 @@
-import Mock from 'mockjs';
-import type { MockMethod } from 'vite-plugin-mock';
-import { menuList } from '../../src/router/menu/index';
+import Mock from 'mockjs'
+import type { MockMethod } from 'vite-plugin-mock'
+import { menuList } from '../../src/router/menu/index'
 
 export const menuMock: MockMethod[] = [
   {
@@ -10,8 +10,8 @@ export const menuMock: MockMethod[] = [
       return Mock.mock({
         code: 200,
         data: menuList,
-        msg: '成功',
-      });
-    },
-  },
-];
+        msg: '成功'
+      })
+    }
+  }
+]

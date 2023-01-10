@@ -28,41 +28,33 @@
 </template>
 
 <script lang="ts" setup>
-import { menuList } from '@/router/menu';
-import { useMenuStore } from '@/stores/modules/menu';
-import { storeToRefs } from 'pinia';
-import { computed, onMounted, ref } from 'vue';
-import { useRoute } from 'vue-router/composables';
-import Logo from './Logo.vue';
-import SidebarItem from './SidebarItem.vue';
+import { menuList } from '@/router/menu'
+import { useMenuStore } from '@/stores/modules/menu'
+import { storeToRefs } from 'pinia'
+import { computed, onMounted, ref } from 'vue'
+import { useRoute } from 'vue-router/composables'
+import Logo from './Logo.vue'
+import SidebarItem from './SidebarItem.vue'
 
-const menuStore = useMenuStore();
+const menuStore = useMenuStore()
 
-const { renderMenuList: routes } = storeToRefs(menuStore);
+const { renderMenuList: routes } = storeToRefs(menuStore)
 
-const route = useRoute();
+const route = useRoute()
 
 const activeMenu = computed(() => {
-  const { meta, name } = route;
-  if (meta?.activeMenu) return meta?.activeMenu;
-  return name;
-});
-const isCollapse = ref<boolean>(false);
-
-onMounted(() => {
-  // console.log(menu);
-  // menu.forEach((route) => {
-  //   router.addRoute(route as unknown as RouteConfig);
-  // });
-});
+  const { meta, name } = route
+  if (meta?.activeMenu) return meta?.activeMenu
+  return name
+})
+const isCollapse = ref<boolean>(false)
 </script>
 
 <style lang="scss">
 .sidebar {
   width: 200px;
   .horizontal-collapse-transition {
-    transition: 0s width ease-in-out, 0s padding-left ease-in-out,
-      0s padding-right ease-in-out;
+    transition: 0s width ease-in-out, 0s padding-left ease-in-out, 0s padding-right ease-in-out;
   }
   .el-scrollbar {
     overflow-y: auto;

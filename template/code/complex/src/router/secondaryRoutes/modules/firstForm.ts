@@ -1,5 +1,5 @@
-import AppLayout from '@/layout/index.vue';
-import { RouteRaw } from '@/router/menu/type';
+import AppLayout from '@/layout/index.vue'
+import { RouteRaw } from '@/router/menu/type'
 
 export const firstForm: RouteRaw[] = [
   {
@@ -11,10 +11,10 @@ export const firstForm: RouteRaw[] = [
         path: 'edit',
         name: 'FirstFormEdit',
         meta: {
-          title: '编辑',
+          title: '编辑'
         },
-        component: () => import('@/views/secondaryPage/firstForm/index.vue'),
-      },
-    ],
-  },
-];
+        component: () => import('@/views/secondaryPage/firstForm/index.vue')
+      }
+    ]
+  }
+]

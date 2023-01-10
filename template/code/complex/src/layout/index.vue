@@ -3,10 +3,7 @@
 <template>
   <div class="app-wrapper">
     <Sidebar class="sidebar-container" />
-    <div
-      class="main-container"
-      :style="{ 'margin-left': isCollapse ? '64px' : '200px' }"
-    >
+    <div class="main-container" :style="{ 'margin-left': isCollapse ? '64px' : '200px' }">
       <Navbar />
       <TagsView />
       <AppMain />
@@ -17,20 +14,20 @@
 
 <script lang="ts">
 export default {
-  name: 'Layout',
-};
+  name: 'Layout'
+}
 </script>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
-import AppMain from './AppMain.vue';
+import { ref } from 'vue'
+import AppMain from './AppMain.vue'
 // import Breadcrumb from './Navbar/components/Breadcrumb.vue';
-import Sidebar from './Sidebar/index.vue';
-import Navbar from './Navbar/index.vue';
-import Footer from './Footer.vue';
-import TagsView from './TagsView/index.vue';
+import Sidebar from './Sidebar/index.vue'
+import Navbar from './Navbar/index.vue'
+import Footer from './Footer.vue'
+import TagsView from './TagsView/index.vue'
 
-const isCollapse = ref(false);
+const isCollapse = ref(false)
 </script>
 
 <style lang="scss" scoped>

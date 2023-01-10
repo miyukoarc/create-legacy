@@ -1,5 +1,5 @@
-import Mock from 'mockjs';
-import type { MockMethod } from 'vite-plugin-mock';
+import Mock from 'mockjs'
+import type { MockMethod } from 'vite-plugin-mock'
 
 export const loginMock: MockMethod[] = [
   {
@@ -9,9 +9,9 @@ export const loginMock: MockMethod[] = [
       return Mock.mock({
         code: 200,
         data: '',
-        msg: '成功',
-      });
-    },
+        msg: '成功'
+      })
+    }
   },
   {
     url: '/api/uc/user/my/info',
@@ -20,10 +20,10 @@ export const loginMock: MockMethod[] = [
       return Mock.mock({
         code: 200,
         data: {
-          username: 'admin',
+          username: 'admin'
         },
-        msg: '成功',
-      });
-    },
-  },
-];
+        msg: '成功'
+      })
+    }
+  }
+]

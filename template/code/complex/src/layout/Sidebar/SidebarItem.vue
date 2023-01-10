@@ -5,7 +5,7 @@
       'menu-wrapper',
       isCollapse ? 'simple-mode' : 'full-mode',
       { 'first-level': isFirstLevel },
-      { 'title-mode': isTitle },
+      { 'title-mode': isTitle }
     ]"
   >
     <el-submenu
@@ -39,15 +39,8 @@
             :class="{ 'submenu-title-noDropdown': isFirstLevel }"
             class="flex items-center"
           >
-            <Icon
-              v-if="theOnlyOneChild.meta.icon"
-              :icon="theOnlyOneChild.meta.icon"
-            />
-            <span
-              v-if="theOnlyOneChild.meta.title"
-              slot="title"
-              class="ml-5px text-14px"
-            >
+            <Icon v-if="theOnlyOneChild.meta.icon" :icon="theOnlyOneChild.meta.icon" />
+            <span v-if="theOnlyOneChild.meta.title" slot="title" class="ml-5px text-14px">
               {{ theOnlyOneChild.meta.title }}
             </span>
           </el-menu-item>
@@ -60,67 +53,67 @@
 
 <script lang="ts">
 export default {
-  name: 'SidebarItem',
-};
+  name: 'SidebarItem'
+}
 </script>
 
 <script lang="ts" setup>
-import SidebarItemLink from './SidebarItemLink.vue';
-import SidebarTitle from './SidebarTitle.vue';
+import SidebarItemLink from './SidebarItemLink.vue'
+import SidebarTitle from './SidebarTitle.vue'
 // 在线图标包
-import { MenuType } from '@/router/menu/type';
-import path from 'path-browserify';
-import { computed, ref } from 'vue';
+import { MenuType } from '@/router/menu/type'
+import path from 'path-browserify'
+import { computed, ref } from 'vue'
 // 离线图标包
 
 interface Props {
-  item: any;
-  isFirstLevel: boolean;
-  basePath: string;
+  item: any
+  isFirstLevel: boolean
+  basePath: string
 }
 const _props = withDefaults(defineProps<Props>(), {
   item: () => {},
   isFirstLevel: true,
-  basePath: '',
-});
+  basePath: ''
+})
 
-const isCollapse = ref(false);
+const isCollapse = ref(false)
 
 const showingChildNumber = computed(() => {
   if (_props.item.children) {
     const showingChildren = _props.item.children.filter((item) => {
       if (item.meta && item.meta.hidden) {
-        return false;
+        return false
       } else {
-        return true;
+        return true
       }
-    });
-    return showingChildren.length;
+    })
+    return showingChildren.length
   }
-  return 0;
-});
+  return 0
+})
 
 const theOnlyOneChild = computed(() => {
   if (showingChildNumber.value > 1) {
-    return null;
+    return null
   }
   if (_props.item.children) {
     for (const child of _props.item.children) {
       if (!child.meta || !child.meta.hidden) {
-        return child;
+        return child
       }
     }
   }
   // If there is no children, return itself with path removed,
   // because this.basePath already conatins item's path information
-  return { ..._props.item, path: '' };
-});
+  return { ..._props.item, path: '' }
+})
 
 const isTitle = computed(() => {
-  return _props.item.meta?.type === MenuType.CATEGORY; //3
-});
+  return _props.item.meta?.type === MenuType.CATEGORY //3
+})
 
 const resolvePath = (routePath: string) => {
-  return path.resolve(_props.basePath, routePath);
-};
+  return path.resolve(_props.basePath, routePath)
+}
 </script>

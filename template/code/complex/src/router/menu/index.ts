@@ -1,4 +1,4 @@
-import { MenuTreeItem, MenuType } from './type';
+import { MenuTreeItem, MenuType } from './type'
 
 // TODO 开发环境下使用node server进行配置
 export const menuList: Array<MenuTreeItem> = [
@@ -11,7 +11,7 @@ export const menuList: Array<MenuTreeItem> = [
     orderIndex: 0,
     metaJson: {
       icon: 'mdi:home',
-      single: false,
+      single: false
     },
     children: [
       {
@@ -22,10 +22,10 @@ export const menuList: Array<MenuTreeItem> = [
         orderIndex: 4,
         parentId: 1,
         metaJson: {
-          icon: 'mdi:home',
-        },
-      },
-    ],
+          icon: 'mdi:home'
+        }
+      }
+    ]
   },
   {
     id: 2,
@@ -36,7 +36,7 @@ export const menuList: Array<MenuTreeItem> = [
     orderIndex: 0,
     metaJson: {
       icon: 'mdi:home',
-      single: true,
+      single: true
     },
     children: [
       {
@@ -47,12 +47,12 @@ export const menuList: Array<MenuTreeItem> = [
         orderIndex: 4,
         parentId: 1,
         metaJson: {
-          icon: 'mdi:home',
-        },
-      },
-    ],
-  },
-];
+          icon: 'mdi:home'
+        }
+      }
+    ]
+  }
+]
 
 export const devMenu = [
   {
@@ -64,7 +64,7 @@ export const devMenu = [
     orderIndex: 0,
     metaJson: {
       icon: 'mdi:rocket-launch-outline',
-      single: false,
+      single: false
     },
     children: [
       {
@@ -75,9 +75,9 @@ export const devMenu = [
         orderIndex: 1,
         parentId: 999,
         metaJson: {
-          icon: 'mdi:home',
-        },
-      },
-    ],
-  },
-];
+          icon: 'mdi:home'
+        }
+      }
+    ]
+  }
+]

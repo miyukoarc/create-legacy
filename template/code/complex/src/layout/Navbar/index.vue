@@ -8,9 +8,9 @@
 </template>
 
 <script lang="ts" setup>
-import UserAvatar from './components/UserAvatar.vue';
-import Breadcrumb from './components/Breadcrumb.vue';
-const pf = 'navbar';
+import UserAvatar from './components/UserAvatar.vue'
+import Breadcrumb from './components/Breadcrumb.vue'
+const pf = 'navbar'
 </script>
 
 <style lang="scss" scoped>

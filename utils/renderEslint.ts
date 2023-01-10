@@ -62,7 +62,6 @@ export default function renderEslint(
       }
     })
   )
-  console.log(updatedPkg, pkg)
   fs.writeFileSync(packageJsonPath, JSON.stringify(updatedPkg, null, 2) + '\n', 'utf-8')
 
   // write to .eslintrc.cjs, .prettierrc.json, etc.

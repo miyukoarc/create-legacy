@@ -9,11 +9,7 @@
       separator="/"
     >
       <transition-group name="breadcrumb">
-        <el-breadcrumb-item
-          class="text-gray-700"
-          v-for="item in breadcrumbs"
-          :key="item.path"
-        >
+        <el-breadcrumb-item class="text-gray-700" v-for="item in breadcrumbs" :key="item.path">
           <span @click="handleRouter(item)">
             <i v-if="breadcrumbs.length == 1" class="el-icon-arrow-left"></i>
             {{ item.meta.title }}
@@ -30,52 +26,52 @@
 
 <script lang="ts">
 export default {
-  name: 'Breadcrumb',
-};
+  name: 'Breadcrumb'
+}
 </script>
 
 <script lang="ts" setup>
-import { ref, watch } from 'vue';
-import { Route, RouteRecord } from 'vue-router';
-import { useRoute, useRouter } from 'vue-router/composables';
+import { ref, watch } from 'vue'
+import { Route, RouteRecord } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router/composables'
 
 const getBreadcrumb = () => {
   const matched: RouteRecord[] = route.matched.filter(
     (item) => item.meta && item.meta.title && !item.meta.single
-  );
+  )
   // const first = matched[0];
   breadcrumbs.value = matched.filter((item) => {
-    return item.meta && item.meta.title && item.meta.breadcrumb !== false;
-  });
-};
+    return item.meta && item.meta.title && item.meta.breadcrumb !== false
+  })
+}
 
-const breadcrumbs = ref<Array<any>>([]);
-const route = useRoute();
-const router = useRouter();
-const extraTitle = ref<string>('');
+const breadcrumbs = ref<Array<any>>([])
+const route = useRoute()
+const router = useRouter()
+const extraTitle = ref<string>('')
 
 const setExtraTitle = (str: string) => {
-  extraTitle.value = str;
-};
+  extraTitle.value = str
+}
 
 const handleRouter = (item: Route) => {
   // return;
   if (item?.meta?.title !== '个人主页' && breadcrumbs.value.length == 1) {
-    router.go(-1);
+    router.go(-1)
   }
-};
+}
 
 watch(
   () => route,
   (val) => {
     if (val.query.tec) {
-      setExtraTitle(val.query.tec as string);
+      setExtraTitle(val.query.tec as string)
     }
-    if (val.path.startsWith('/redirect/')) return;
-    getBreadcrumb();
+    if (val.path.startsWith('/redirect/')) return
+    getBreadcrumb()
   },
   { immediate: true, deep: true }
-);
+)
 </script>
 
 <style>

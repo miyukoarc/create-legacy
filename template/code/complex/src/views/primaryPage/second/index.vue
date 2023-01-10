@@ -3,11 +3,7 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted } from 'vue';
-
-onMounted(() => {
-  console.log('onMounted');
-});
+import { onMounted } from 'vue'
 </script>
 
 <style lang="scss"></style>

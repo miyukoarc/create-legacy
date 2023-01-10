@@ -6,9 +6,9 @@
 </template>
 
 <script lang="ts" setup>
-import logo from '@/assets/img/logo.png';
-import { ref } from 'vue';
-const projectName = ref('标题');
+import logo from '@/assets/img/logo.png'
+import { ref } from 'vue'
+const projectName = ref('标题')
 </script>
 
 <style lang="scss" scoped></style>

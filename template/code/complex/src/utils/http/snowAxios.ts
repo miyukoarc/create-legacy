@@ -1,88 +1,84 @@
-import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
-import { deepClone } from '../helper';
-import { isFunction } from '../is';
-import { RequestOptions, ResData, Result } from './axios';
-import { AxiosCanceler } from './axiosCancel';
-import { SnowAxiosOptions } from './axiosTransform';
+import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios'
+import { deepClone } from '../helper'
+import { isFunction } from '../is'
+import { RequestOptions, ResData, Result } from './axios'
+import { AxiosCanceler } from './axiosCancel'
+import { SnowAxiosOptions } from './axiosTransform'
 
 export class SnowAxios {
-  private axiosInstance: AxiosInstance;
-  private readonly options: SnowAxiosOptions;
+  private axiosInstance: AxiosInstance
+  private readonly options: SnowAxiosOptions
 
   constructor(options: SnowAxiosOptions) {
-    this.options = options;
-    this.axiosInstance = axios.create(options);
-    this.setupInterceptors();
+    this.options = options
+    this.axiosInstance = axios.create(options)
+    this.setupInterceptors()
   }
 
   private getTransform() {
-    const { transform } = this.options;
-    return transform;
+    const { transform } = this.options
+    return transform
   }
 
   private setupInterceptors() {
-    const transform = this.getTransform();
+    const transform = this.getTransform()
     // type protect
 
-    const axiosCancel = new AxiosCanceler();
+    const axiosCancel = new AxiosCanceler()
     if (!transform) {
-      return;
+      return
     }
 
-    const { requestInterceptors, requestInterceptorsCatch, responseInterceptors, responseInterceptorsCatch } =
-      transform;
+    const {
+      requestInterceptors,
+      requestInterceptorsCatch,
+      responseInterceptors,
+      responseInterceptorsCatch
+    } = transform
 
     this.axiosInstance.interceptors.request.use((config: AxiosRequestConfig) => {
-      const ignoreCancelToken = (config as SnowAxiosOptions).requestOptions?.ignoreCancelToken;
+      const ignoreCancelToken = (config as SnowAxiosOptions).requestOptions?.ignoreCancelToken
 
-      // const loading = (config as SnowAxiosOptions).requestOptions
-      //     ?.loading;
-
-      // if (loading) {
-      //     console.log(loading)
-      //     SettingsModule.toggleLoading();
-      // }
-
-      !ignoreCancelToken && axiosCancel.addPending(config);
+      !ignoreCancelToken && axiosCancel.addPending(config)
 
       if (requestInterceptors) {
-        config = requestInterceptors(config, this.options);
+        config = requestInterceptors(config, this.options)
       }
 
-      return config;
-    }, undefined);
+      return config
+    }, undefined)
 
-    this.axiosInstance.interceptors.request.use(undefined, requestInterceptorsCatch);
+    this.axiosInstance.interceptors.request.use(undefined, requestInterceptorsCatch)
 
     this.axiosInstance.interceptors.response.use((res: AxiosResponse<any>) => {
-      res && axiosCancel.removePending(res.config);
+      res && axiosCancel.removePending(res.config)
       if (responseInterceptors) {
-        res = responseInterceptors(res);
+        res = responseInterceptors(res)
       }
 
-      return res;
-    }, undefined);
+      return res
+    }, undefined)
 
-    this.axiosInstance.interceptors.response.use(undefined, responseInterceptorsCatch);
+    this.axiosInstance.interceptors.response.use(undefined, responseInterceptorsCatch)
   }
 
   request<T = any, U extends boolean = false>(
     config: AxiosRequestConfig,
-    options?: RequestOptions,
+    options?: RequestOptions
   ): Promise<ResData<T, U>> {
     return new Promise((resolve, reject) => {
       //
-      let conf: SnowAxiosOptions = deepClone(config);
-      const transform = this.getTransform();
-      const { requestOptions } = this.options;
+      let conf: SnowAxiosOptions = deepClone(config)
+      const transform = this.getTransform()
+      const { requestOptions } = this.options
 
-      const opt: RequestOptions = Object.assign({}, requestOptions, options);
+      const opt: RequestOptions = Object.assign({}, requestOptions, options)
 
-      const { beforeRequestHook, transformRequestHook } = transform || {};
+      const { beforeRequestHook, transformRequestHook } = transform || {}
       if (beforeRequestHook && isFunction(beforeRequestHook)) {
-        conf = beforeRequestHook(conf, opt);
+        conf = beforeRequestHook(conf, opt)
       }
-      conf.requestOptions = opt;
+      conf.requestOptions = opt
 
       // 排序参数的特殊处理
       // const orderCfg = conf?.data?.search?.orders;
@@ -96,46 +92,46 @@ export class SnowAxios {
         .then((res: AxiosResponse<Result>) => {
           if (transformRequestHook && isFunction(transformRequestHook)) {
             try {
-              const ret = transformRequestHook(res, opt);
-              resolve(ret);
+              const ret = transformRequestHook(res, opt)
+              resolve(ret)
             } catch (err) {
-              reject(err || new Error('request eror'));
+              reject(err || new Error('request eror'))
             }
-            return;
+            return
           }
-          resolve(res as unknown as Promise<ResData<T, U>>);
+          resolve(res as unknown as Promise<ResData<T, U>>)
         })
         .catch((e: Error) => {
-          reject(e);
-        });
-    });
+          reject(e)
+        })
+    })
   }
 
   get<T = any, U extends boolean = false>(
     config: AxiosRequestConfig,
-    options?: RequestOptions,
+    options?: RequestOptions
   ): Promise<ResData<T, U>> {
-    return this.request({ ...config, method: 'GET' }, options);
+    return this.request({ ...config, method: 'GET' }, options)
   }
 
   post<T = any, U extends boolean = false>(
     config: AxiosRequestConfig,
-    options?: RequestOptions,
+    options?: RequestOptions
   ): Promise<ResData<T, U>> {
-    return this.request({ ...config, method: 'POST' }, options);
+    return this.request({ ...config, method: 'POST' }, options)
   }
 
   put<T = any, U extends boolean = false>(
     config: AxiosRequestConfig,
-    options?: RequestOptions,
+    options?: RequestOptions
   ): Promise<ResData<T, U>> {
-    return this.request({ ...config, method: 'PUT' }, options);
+    return this.request({ ...config, method: 'PUT' }, options)
   }
 
   delete<T = any, U extends boolean = false>(
     config: AxiosRequestConfig,
-    options?: RequestOptions,
+    options?: RequestOptions
   ): Promise<ResData<T, U>> {
-    return this.request({ ...config, method: 'DELETE' }, options);
+    return this.request({ ...config, method: 'DELETE' }, options)
   }
 }

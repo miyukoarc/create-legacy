@@ -1,4 +1,4 @@
 export type AuthBody = {
-  userId: string;
-  password: string;
-};
+  userId: string
+  password: string
+}

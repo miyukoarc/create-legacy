@@ -1,18 +1,15 @@
-import router from '@/router';
-import { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
-import { RequestOptions, Result } from './axios';
-import { SnowAxiosOptions, SnowAxiosTransform } from './axiosTransform';
-import { checkStatus } from './checkStatus';
-import { SnowAxios } from './snowAxios';
+import router from '@/router'
+import { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios'
+import { RequestOptions, Result } from './axios'
+import { SnowAxiosOptions, SnowAxiosTransform } from './axiosTransform'
+import { checkStatus } from './checkStatus'
+import { SnowAxios } from './snowAxios'
 
-const urlPrefix = '/api';
+const urlPrefix = '/api'
 
 const transform: SnowAxiosTransform = {
-  transformRequestHook: (
-    res: AxiosResponse<Result>,
-    options: RequestOptions
-  ) => {
-    const { isReturnOriginalResponse, successReport, errorReport } = options;
+  transformRequestHook: (res: AxiosResponse<Result>, options: RequestOptions) => {
+    const { isReturnOriginalResponse, successReport, errorReport } = options
 
     // 全局loading状态
     if (options.loading) {
@@ -21,62 +18,57 @@ const transform: SnowAxiosTransform = {
 
     // 返回原始响应体
     if (isReturnOriginalResponse) {
-      return res;
+      return res
     }
 
-    return checkStatus(res, options);
+    return checkStatus(res, options)
   },
 
   beforeRequestHook: (config: AxiosRequestConfig, options: RequestOptions) => {
-    const { joinPrefix, joinTime = true, customPrefix, loading } = options;
+    const { joinPrefix, joinTime = true, customPrefix, loading } = options
 
-    const prefix = customPrefix ? customPrefix : urlPrefix;
+    const prefix = customPrefix ? customPrefix : urlPrefix
 
     if (loading) {
       //
     }
 
     if (joinPrefix) {
-      config.url = `${prefix}${config.url}`;
+      config.url = `${prefix}${config.url}`
     }
-    return config;
+    return config
   },
 
-  requestInterceptors: (
-    config: AxiosRequestConfig,
-    options: SnowAxiosOptions
-  ) => {
-    return config;
+  requestInterceptors: (config: AxiosRequestConfig, options: SnowAxiosOptions) => {
+    return config
   },
 
   requestInterceptorsCatch: (err) => {
-    return Promise.reject(err);
+    return Promise.reject(err)
   },
   responseInterceptors: (res: AxiosResponse<any>) => {
-    return res;
+    return res
   },
   responseInterceptorsCatch: (error) => {
-    console.log(error as unknown as AxiosError);
-    const errorMsg = error.message;
+    const errorMsg = error.message
     // 超时处理
     if (error.message.indexOf('timeout') !== -1) {
-      console.error('请求超时！');
-      return false;
+      console.error('请求超时！')
+      return false
     }
     // 未登录
     if (error.response && error.response.status === 401) {
-      router.push('/login');
-      return false;
+      router.push('/login')
+      return false
     }
 
-    const { message, config } = error || {};
-    const reportMessageMode =
-      config?.requestOptions?.reportMessageMode || 'none';
-    const errorReport = config?.requestOptions?.errorReport;
+    const { message, config } = error || {}
+    const reportMessageMode = config?.requestOptions?.reportMessageMode || 'none'
+    const errorReport = config?.requestOptions?.errorReport
 
-    errorReport && console.error(errorMsg || '请求失败');
-  },
-};
+    errorReport && console.error(errorMsg || '请求失败')
+  }
+}
 
 function createAxios(opt?: Partial<SnowAxiosOptions>) {
   return new SnowAxios({
@@ -92,9 +84,9 @@ function createAxios(opt?: Partial<SnowAxiosOptions>) {
       errorReport: true,
       successReport: false,
       joinTime: true,
-      loading: false,
-    },
-  });
+      loading: false
+    }
+  })
 }
 
-export const defHttp = createAxios();
+export const defHttp = createAxios()

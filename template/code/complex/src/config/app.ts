@@ -1,35 +1,35 @@
 export type ThemeTypes = {
-  elColorPrimary?: string;
-  leftMenuBorderColor?: string;
-  leftMenuBgColor?: string;
-  leftMenuBgLightColor?: string;
-  leftMenuBgActiveColor?: string;
-  leftMenuCollapseBgActiveColor?: string;
-  leftMenuTextColor?: string;
-  leftMenuTextActiveColor?: string;
-  logoTitleTextColor?: string;
-  logoBorderColor?: string;
-  topHeaderBgColor?: string;
-  topHeaderTextColor?: string;
-  topHeaderHoverColor?: string;
-  topToolBorderColor?: string;
-};
+  elColorPrimary?: string
+  leftMenuBorderColor?: string
+  leftMenuBgColor?: string
+  leftMenuBgLightColor?: string
+  leftMenuBgActiveColor?: string
+  leftMenuCollapseBgActiveColor?: string
+  leftMenuTextColor?: string
+  leftMenuTextActiveColor?: string
+  logoTitleTextColor?: string
+  logoBorderColor?: string
+  topHeaderBgColor?: string
+  topHeaderTextColor?: string
+  topHeaderHoverColor?: string
+  topToolBorderColor?: string
+}
 export interface AppState {
-  breadcrumb: boolean;
-  breadcrumbIcon: boolean;
-  collapse: boolean;
-  uniqueOpened: boolean;
-  hamburger: boolean;
-  screenfull: boolean;
-  size: boolean;
-  tagsView: boolean;
-  tagsViewIcon: boolean;
-  logo: boolean;
-  fixedHeader: boolean;
-  pageLoading: boolean;
-  title: string;
-  userInfo: string;
-  footer: boolean;
+  breadcrumb: boolean
+  breadcrumbIcon: boolean
+  collapse: boolean
+  uniqueOpened: boolean
+  hamburger: boolean
+  screenfull: boolean
+  size: boolean
+  tagsView: boolean
+  tagsViewIcon: boolean
+  logo: boolean
+  fixedHeader: boolean
+  pageLoading: boolean
+  title: string
+  userInfo: string
+  footer: boolean
 }
 
 export const appModules: AppState = {
@@ -50,5 +50,5 @@ export const appModules: AppState = {
   tagsViewIcon: true, // 是否显示标签图标
   logo: true, // logo
   fixedHeader: true, // 固定toolheader
-  footer: true, // 显示页脚
-};
+  footer: true // 显示页脚
+}

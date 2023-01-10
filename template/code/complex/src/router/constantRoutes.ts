@@ -1,14 +1,14 @@
-import { RouteRaw } from './menu/type';
-import LAYOUT from '@/layout/index.vue';
+import { RouteRaw } from './menu/type'
+import LAYOUT from '@/layout/index.vue'
 
 export const ROOT_ROUTE: RouteRaw = {
   path: '/',
   redirect: '/logged/welcome',
   name: 'DefaultRedirect',
   meta: {
-    hidden: true,
-  },
-};
+    hidden: true
+  }
+}
 
 // export const PAGE_NOT_FOUND_ROUTE: RouteRaw = {
 //   path: '/:path(.*)*',
@@ -34,9 +34,9 @@ export const LOGIN_ROUTE: RouteRaw = {
   name: 'Login',
   component: () => import('@/views/basePage/login/index.vue'),
   meta: {
-    title: '登录',
-  },
-};
+    title: '登录'
+  }
+}
 
 export const REDIRECT_ROUTE: RouteRaw = {
   path: '/redirect',
@@ -47,12 +47,12 @@ export const REDIRECT_ROUTE: RouteRaw = {
       path: '/redirect/:path(.*)',
       name: 'RedirectPath',
       meta: {
-        hidden: true,
+        hidden: true
       },
-      component: () => import('@/views/basePage/redirect/index.vue'),
-    },
-  ],
-};
+      component: () => import('@/views/basePage/redirect/index.vue')
+    }
+  ]
+}
 
 export const WELCOME_PAGE: RouteRaw = {
   path: '/logged',
@@ -64,16 +64,16 @@ export const WELCOME_PAGE: RouteRaw = {
       name: 'Welcome',
       component: () => import('@/views/basePage/welcome/index.vue'),
       meta: {
-        title: '欢迎',
-      },
-    },
-  ],
-};
+        title: '欢迎'
+      }
+    }
+  ]
+}
 
 export const constantRoutes: RouteRaw[] = [
   ROOT_ROUTE,
   LOGIN_ROUTE,
   WELCOME_PAGE,
   // PAGE_NOT_FOUND_ROUTE,
-  REDIRECT_ROUTE,
-];
+  REDIRECT_ROUTE
+]
