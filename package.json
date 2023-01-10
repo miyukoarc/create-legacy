@@ -1,5 +1,5 @@
 {
-  "name": "create-legacy",
+  "name": "create-vue-legacy",
   "version": "1.0.0",
   "description": "An easy way to start a Vue2.7 project",
   "type": "module",
@@ -22,6 +22,7 @@
     "test": "zx ./scripts/test.mjs",
     "prepublishOnly": "zx ./scripts/prepublish.mjs"
   },
+  "repository": "https://github.com/miyukoarc/create-legacy.git",
   "keywords": [],
   "license": "MIT",
   "devDependencies": {
