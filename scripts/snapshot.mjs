@@ -52,10 +52,10 @@ flagCombinations = flagCombinations.filter(
 // Here we generate the snapshots only for the sake of easier comparison with older templates.
 // They may be removed in later releases.
 const withTestsFlags = fullCombination(['typescript', 'jsx', 'router', 'pinia']).map((args) => [
-  ...args,
-  'with-tests'
+  ...args
+  // 'with-tests'
 ])
-withTestsFlags.push(['with-tests'])
+// withTestsFlags.push(['with-tests'])
 
 flagCombinations.push(...withTestsFlags)
 
